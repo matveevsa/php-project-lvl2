@@ -1,0 +1,18 @@
+{
+    "name": "matveevsa/php-project-lvl2",
+    "description": "CLI diff tool",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Matveev S.",
+            "email": "matveevsa987@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.0@dev"
+    },
+    "scripts": {
+        "phpcs": "phpcs"
+    }
+}
