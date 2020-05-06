@@ -2,7 +2,7 @@
 
 namespace Gendiff;
 
-function startGendiff()
+function generateDiff()
 {
     $doc = <<<DOC
     Generate diff
@@ -20,8 +20,9 @@ function startGendiff()
     DOC;
 
     $args = \Docopt::handle($doc);
-    //print_r($args);
-    $path1 = realpath($args['<firstFile>']);
-    print_r($path1);
 
+    $path1 = realpath($args['<firstFile>']);
+    $path2 = realpath($args['<secondFile>']);
+
+    print_r(file_get_contents($path1) . PHP_EOL);
 }
