@@ -20,6 +20,7 @@ function startGendiff()
     DOC;
 
     $args = \Docopt::handle($doc);
+    print_r($args);
     $path1 = dirname(__FILE__);
     print_r($path1);
 
