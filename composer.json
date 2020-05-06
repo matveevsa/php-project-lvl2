@@ -9,10 +9,21 @@
         }
     ],
     "minimum-stability": "dev",
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.0@dev"
-    },
     "scripts": {
         "phpcs": "phpcs"
+    },
+    "bin": [
+        "bin/gendiff"
+    ],
+    "autoload": {
+        "files": [
+            "src/index.php"
+        ]
+    },
+    "require": {
+        "docopt/docopt": "dev-master"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.0@dev"
     }
 }
