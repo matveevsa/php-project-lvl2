@@ -8,6 +8,7 @@
             "email": "matveevsa987@gmail.com"
         }
     ],
+    "license": "MIT",
     "minimum-stability": "dev",
     "scripts": {
         "phpcs": "phpcs"
