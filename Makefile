@@ -3,7 +3,7 @@ install:
 lint:
 	composer run-script phpcs -- --standard=PSR12 src bin
 test:
-	./vendor/phpunit/phpunit/phpunit tests
+	composer test
 unpublish:
 	composer global remove matveevsa/php-project-lvl2
 publish:
