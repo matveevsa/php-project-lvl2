@@ -2,27 +2,14 @@
 
 namespace Gendiff;
 
-function generateDiff()
+use function Gendiff\Ast\generateAST;
+use function Gendiff\Tree\stringifyTree;
+
+function generateDiff($pathToFile1, $pathToFile2)
 {
-    $doc = <<<DOC
-    Generate diff
+    $dataFile1 = file_get_contents($pathToFile1);
+    $dataFile2 = file_get_contents($pathToFile2);
 
-    Usage:
-      gendiff (-h|--help)
-      gendiff (-v|--version)
-      gendiff [--format <fmt>] <firstFile> <secondFile>
-
-    Options:
-      -h --help                     Show this screen
-      -v --version                  Show version
-      --format <fmt>                Report format [default: pretty]
-
-    DOC;
-
-    $args = \Docopt::handle($doc);
-
-    $path1 = realpath($args['<firstFile>']);
-    $path2 = realpath($args['<secondFile>']);
-
-    print_r(file_get_contents($path1) . PHP_EOL);
+    $ast = generateAST($dataFile1, $dataFile2);
+    return stringifyTree($ast);
 }
