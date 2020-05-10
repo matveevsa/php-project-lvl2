@@ -1,6 +1,6 @@
 <?php
 
-namespace Gendiff\Tree;
+namespace GenDiff\Tree;
 
 function stringifyTree($ast)
 {
@@ -27,5 +27,5 @@ function stringifyTree($ast)
 
 function renderTree($str)
 {
-    return $str;
+    return print_r("\n{$str}\n");
 }

@@ -1,14 +1,11 @@
 <?php
 
-namespace Gendiff\Ast;
+namespace GenDiff\Ast;
 
 use function Funct\Collection\union;
 
-function generateAST($data1, $data2)
+function generateAST($firstData, $secondData)
 {
-    $firstData = json_decode($data1, true);
-    $secondData = json_decode($data2, true);
-
     $keysData1 = array_keys($firstData);
     $keysData2 = array_keys($secondData);
     $keysUnion = union($keysData1, $keysData2);
