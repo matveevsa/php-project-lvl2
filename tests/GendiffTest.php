@@ -29,7 +29,7 @@ class GendiffTest extends TestCase
     {
         return [
             ['result', 'json'],
-            ['result', 'yaml'],
+            ['result', 'yaml']
         ];
     }
 }

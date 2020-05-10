@@ -29,5 +29,5 @@ $args = \Docopt::handle($doc);
 $pathToFile1 = $args['<firstFile>'];
 $pathToFile2 = $args['<secondFile>'];
 
-$strFromData = Gendiff\generateDiff($pathToFile1, $pathToFile2);
-GenDiff\Tree\renderTree($strFromData);
+$result = GenDiff\generateDiff($pathToFile1, $pathToFile2);
+print_r($result);

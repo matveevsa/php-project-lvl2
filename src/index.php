@@ -2,8 +2,8 @@
 
 namespace GenDiff;
 
+use function GenDiff\Tree\toStringTree;
 use function GenDiff\Ast\generateAST;
-use function GenDiff\Tree\stringifyTree;
 use function GenDiff\Parse\parse;
 
 function generateDiff($pathToFile1, $pathToFile2)
@@ -19,7 +19,7 @@ function generateDiff($pathToFile1, $pathToFile2)
 
     $dataFile1 = parse($contentFile1, $extFile1);
     $dataFile2 = parse($contentFile2, $extFile2);
-
     $ast = generateAST($dataFile1, $dataFile2);
-    return stringifyTree($ast);
+
+    return toStringTree($ast);
 }
