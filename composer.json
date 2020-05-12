@@ -19,9 +19,11 @@
     "autoload": {
         "files": [
             "src/index.php",
-            "src/GenerateAST.php",
-            "src/Tree.php",
-            "src/Parsers.php"
+            "src/generateAst.php",
+            "src/parsers.php",
+            "src/formatters/tree.php",
+            "src/formatters/plain.php",
+            "src/formatters/index.php"
         ]
     },
     "require": {

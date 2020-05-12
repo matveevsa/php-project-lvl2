@@ -1,10 +1,10 @@
 <?php
 
-namespace GenDiff\Ast;
+namespace GenDiff\generateAst;
 
 use function Funct\Collection\union;
 
-function generateAST($firstData, $secondData)
+function generateAst($firstData, $secondData)
 {
     $keysData1 = array_keys($firstData);
     $keysData2 = array_keys($secondData);

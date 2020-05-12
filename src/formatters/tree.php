@@ -1,6 +1,6 @@
 <?php
 
-namespace GenDiff\Tree;
+namespace GenDiff\Formatter\tree;
 
 function repeatDelimeter($delimeter, $count = 0)
 {
@@ -15,9 +15,7 @@ function stringify($item, $delimeter = '', $delimeterCountStart = 0, $delimeterC
 
     $keys = array_keys($item);
 
-    $parts = array_map(function ($key) use ($item) {
-        return "{$key}: {$item[$key]}";
-    }, $keys);
+    $parts = array_map(fn($key) => "{$key}: {$item[$key]}", $keys);
 
     return "{" . PHP_EOL
         . repeatDelimeter($delimeter, $delimeterCountStart)
@@ -29,22 +27,22 @@ function stringifyTree($ast, $depth = 0, $delimeter = ' ', $delimeterCount = 2)
 {
     $templates = [
         'deleted' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
-            . "- " . stringify($item['key'], $delimeter, $delimeterCount) . ": "
+            . "- {$item['key']}: "
             . stringify($item['value'], $delimeter, ($depth + 1) * $delimeterCount + ($depth == 0 ? 6 : 4), 4),
 
         'added' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
-            . "+ " . stringify($item['key'], $delimeter, $delimeterCount) . ": "
+            . "+ {$item['key']}: "
             . stringify($item['value'], $delimeter, ($depth + 1) * $delimeterCount + ($depth == 0 ? 6 : 4), 4),
 
         'unchanged' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 4)
-            . stringify($item['key'], $delimeter, $delimeterCount) . ": "
+            . "{$item['key']}: "
             . stringify($item['value'], $delimeter, $delimeterCount),
 
         'changed' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
-            . "+ " . stringify($item['key'], $delimeter, $delimeterCount) . ": "
+            . "+ {$item['key']}: "
             . stringify($item['value']) . PHP_EOL .
             repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
-            . "- " . stringify($item['key'], $delimeter, $delimeterCount) . ": "
+            . "- {$item['key']}: "
             . stringify($item['oldValue'], $delimeter, $delimeterCount),
 
         'hasChildren' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 4) .
@@ -68,5 +66,5 @@ function stringifyTree($ast, $depth = 0, $delimeter = ' ', $delimeterCount = 2)
 
 function toStringTree($ast)
 {
-    return "{\n" . stringifyTree($ast) . "\n}";
+    return "{\n" . stringifyTree($ast) . "\n}" . PHP_EOL;
 }

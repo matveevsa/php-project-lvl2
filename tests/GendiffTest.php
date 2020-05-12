@@ -10,17 +10,16 @@ class GendiffTest extends TestCase
     /**
      * @dataProvider additionProvider
      */
-
-    public function testGendiff($result, $ext)
+    public function testGendiff($format, $ext)
     {
         $pathToFile1 = realpath(__DIR__ . '/fixtures' . "/before.{$ext}");
         $pathToFile2 = realpath(__DIR__ . '/fixtures' . "/after.{$ext}");
 
-        $pathToResult = realpath(__DIR__ . '/fixtures' . "/{$result}.txt");
+        $pathToResult = realpath(__DIR__ . '/fixtures' . "/{$format}Result.txt");
 
         $expected = file_get_contents($pathToResult);
 
-        $actual = Gendiff\generateDiff($pathToFile1, $pathToFile2);
+        $actual = Gendiff\generateDiff($pathToFile1, $pathToFile2, $format);
 
         $this->assertEquals($expected, $actual);
     }
@@ -28,8 +27,8 @@ class GendiffTest extends TestCase
     public function additionProvider()
     {
         return [
-            ['result', 'json'],
-            ['result', 'yaml']
+            ['tree', 'json'],
+            ['plain', 'yaml']
         ];
     }
 }
