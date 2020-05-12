@@ -2,8 +2,6 @@
 
 namespace GenDiff\Formatter\plain;
 
-use function PHPUnit\Framework\isEmpty;
-
 function stringify($item)
 {
     return is_array($item) ? 'complex value' : $item;

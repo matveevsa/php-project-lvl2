@@ -9,8 +9,6 @@ function parse($data, $type)
     switch ($type) {
         case 'json':
             return json_decode($data, true);
-        case 'ini':
-            return parse_ini_file($data);
         case 'yaml':
             return Yaml::parse($data);
         case 'yml':

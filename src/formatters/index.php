@@ -12,6 +12,8 @@ function toString($ast, $format)
             return toStringTree($ast);
         case 'plain':
             return toStringPlain($ast);
+        case 'json':
+            return json_encode($ast);
         default:
             return 'Unknown format!';
     }
