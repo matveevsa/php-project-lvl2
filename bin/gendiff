@@ -20,7 +20,7 @@ Usage:
 Options:
   -h --help                     Show this screen
   -v --version                  Show version
-  --format <fmt>                Report format [default: pretty]
+  --format <fmt>                Report format [default: plain]
 
 DOC;
 
@@ -28,6 +28,7 @@ $args = \Docopt::handle($doc);
 
 $pathToFile1 = $args['<firstFile>'];
 $pathToFile2 = $args['<secondFile>'];
+$format = $args['--format'];
 
-$result = GenDiff\generateDiff($pathToFile1, $pathToFile2);
+$result = GenDiff\generateDiff($pathToFile1, $pathToFile2, $format);
 print_r($result);
