@@ -15,6 +15,6 @@ function toString($ast, $format)
         case 'json':
             return json_encode($ast);
         default:
-            return 'Unknown format!';
+            return "Error! Format {$format} is not supported!";
     }
 }

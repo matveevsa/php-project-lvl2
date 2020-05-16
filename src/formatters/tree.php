@@ -2,12 +2,12 @@
 
 namespace GenDiff\Formatter\tree;
 
-function repeatDelimeter($delimeter, $count = 0)
+function repeatSpace($count = 0)
 {
-    return str_repeat($delimeter, $count);
+    return str_repeat(' ', $count);
 }
 
-function stringify($item, $delimeter = '', $delimeterCountStart = 0, $delimeterCountEnd = 2)
+function stringify($item, $count = 0)
 {
     if (!is_array($item)) {
         return $item;
@@ -18,45 +18,45 @@ function stringify($item, $delimeter = '', $delimeterCountStart = 0, $delimeterC
     $parts = array_map(fn($key) => "{$key}: {$item[$key]}", $keys);
 
     return "{" . PHP_EOL
-        . repeatDelimeter($delimeter, $delimeterCountStart)
+        . repeatSpace($count + 4)
         . implode("\n", $parts) . PHP_EOL
-        . repeatDelimeter($delimeter, $delimeterCountStart - $delimeterCountEnd)  . "}";
+        . repeatSpace($count) . "}";
 }
 
-function stringifyTree($ast, $depth = 0, $delimeter = ' ', $delimeterCount = 2)
+function stringifyTree($ast, $depth = 1)
 {
     $templates = [
-        'deleted' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
+        'deleted' => fn($item, $depth) => repeatSpace($depth * 4 - 2)
             . "- {$item['key']}: "
-            . stringify($item['value'], $delimeter, ($depth + 1) * $delimeterCount + ($depth == 0 ? 6 : 4), 4),
+            . stringify($item['value'], $depth * 4),
 
-        'added' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
+        'added' => fn($item, $depth) => repeatSpace($depth * 4 - 2)
             . "+ {$item['key']}: "
-            . stringify($item['value'], $delimeter, ($depth + 1) * $delimeterCount + ($depth == 0 ? 6 : 4), 4),
+            . stringify($item['value'], $depth * 4),
 
-        'unchanged' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 4)
+        'unchanged' => fn($item, $depth) => repeatSpace($depth * 4)
             . "{$item['key']}: "
-            . stringify($item['value'], $delimeter, $delimeterCount),
+            . stringify($item['value'], $depth * 4),
 
-        'changed' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
+        'changed' => fn($item, $depth) => repeatSpace($depth * 4 - 2)
             . "+ {$item['key']}: "
             . stringify($item['value']) . PHP_EOL .
-            repeatDelimeter($delimeter, $depth * $delimeterCount + 2)
+            repeatSpace($depth * 4 - 2)
             . "- {$item['key']}: "
-            . stringify($item['oldValue'], $delimeter, $delimeterCount),
+            . stringify($item['oldValue'], $depth),
 
-        'hasChildren' => fn($item) => repeatDelimeter($delimeter, $depth * $delimeterCount + 4) .
-            "{$item['key']}: {\n" . stringifyTree($item['children'], $depth + 1, $delimeter, $delimeterCount + 2)
-            . PHP_EOL . repeatDelimeter($delimeter, $depth * $delimeterCount + 4) . "}"
+        'hasChildren' => fn($item, $depth) => repeatSpace($depth * 4) .
+            "{$item['key']}: {\n" . stringifyTree($item['children'], $depth + 1)
+            . PHP_EOL . repeatSpace($depth * 4) . "}"
     ];
 
-    $parts = array_map(function ($item) use ($templates) {
+    $parts = array_map(function ($item) use ($templates, $depth) {
         if ($item['value'] === true) {
             $item['value'] = 'true';
         } elseif ($item['value'] === false) {
             $item['value'] = 'false';
         }
-        return $templates[$item['status']]($item);
+        return $templates[$item['status']]($item, $depth);
     }, $ast);
 
     $result = implode("\n", $parts);

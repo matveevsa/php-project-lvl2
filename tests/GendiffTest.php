@@ -12,10 +12,10 @@ class GendiffTest extends TestCase
      */
     public function testGendiff($format, $ext)
     {
-        $pathToFile1 = realpath(__DIR__ . '/fixtures' . "/before.{$ext}");
-        $pathToFile2 = realpath(__DIR__ . '/fixtures' . "/after.{$ext}");
+        $pathToFile1 = $this->getFixturePath("before.{$ext}");
+        $pathToFile2 = $this->getFixturePath("after.{$ext}");
 
-        $pathToResult = realpath(__DIR__ . '/fixtures' . "/{$format}Result.txt");
+        $pathToResult = $this->getFixturePath("{$format}Result.txt");
 
         $expected = file_get_contents($pathToResult);
 
@@ -31,5 +31,10 @@ class GendiffTest extends TestCase
             ['plain', 'yaml'],
             ['json', 'json']
         ];
+    }
+
+    private function getFixturePath($filename)
+    {
+        return realpath(__DIR__ . '/fixtures//' . $filename);
     }
 }

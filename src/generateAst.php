@@ -19,7 +19,7 @@ function generateAst($firstData, $secondData)
             'children' => []
         ];
 
-        if (array_key_exists($key, $firstData) && !array_key_exists($key, $secondData)) {
+        if (!array_key_exists($key, $secondData)) {
             $ast[] = array_merge(
                 $item,
                 [
@@ -27,7 +27,7 @@ function generateAst($firstData, $secondData)
                     'value' => $firstData[$key],
                 ]
             );
-        } elseif (!array_key_exists($key, $firstData) && array_key_exists($key, $secondData)) {
+        } elseif (!array_key_exists($key, $firstData)) {
             $ast[] = array_merge(
                 $item,
                 [

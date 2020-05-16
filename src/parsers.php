@@ -14,6 +14,6 @@ function parse($data, $type)
         case 'yml':
             return Yaml::parse($data);
         default:
-            return 'Unknow parser!';
+            return "Error! {$type} is invalid format to parse!";
     }
 }
