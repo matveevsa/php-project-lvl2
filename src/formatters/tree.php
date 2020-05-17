@@ -10,15 +10,20 @@ function repeatSpace($count = 0)
 function stringify($item, $count = 0)
 {
     if (!is_array($item)) {
+        if ($item === true) {
+            $item = 'true';
+        } elseif ($item === false) {
+            $item = 'false';
+        }
         return $item;
     }
 
     $keys = array_keys($item);
 
-    $parts = array_map(fn($key) => "{$key}: {$item[$key]}", $keys);
+    $parts = array_map(fn($key) =>
+        repeatSpace($count + 4) . "{$key}: " . stringify($item[$key], $count + 4), $keys);
 
     return "{" . PHP_EOL
-        . repeatSpace($count + 4)
         . implode("\n", $parts) . PHP_EOL
         . repeatSpace($count) . "}";
 }
@@ -50,14 +55,7 @@ function stringifyTree($ast, $depth = 1)
             . PHP_EOL . repeatSpace($depth * 4) . "}"
     ];
 
-    $parts = array_map(function ($item) use ($templates, $depth) {
-        if ($item['value'] === true) {
-            $item['value'] = 'true';
-        } elseif ($item['value'] === false) {
-            $item['value'] = 'false';
-        }
-        return $templates[$item['status']]($item, $depth);
-    }, $ast);
+    $parts = array_map(fn($item) => $templates[$item['status']]($item, $depth), $ast);
 
     $result = implode("\n", $parts);
 

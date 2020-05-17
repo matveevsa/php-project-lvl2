@@ -4,7 +4,15 @@ namespace GenDiff\Formatter\plain;
 
 function stringify($item)
 {
-    return is_array($item) ? 'complex value' : $item;
+    $currentItem = is_array($item) ? 'complex value' : $item;
+
+    if ($currentItem === true) {
+        $currentItem = 'true';
+    } elseif ($currentItem === false) {
+        $currentItem = 'false';
+    }
+
+    return $currentItem;
 }
 
 function joinPath($path)
@@ -23,20 +31,18 @@ function stringifyPlain($ast, $path = [])
          . stringify($item['value']) . "'"),
 
         'changed' => fn($path, $item) => (
-            "Property '" . joinPath($path) . "' was changed. From '{$item['oldValue']}' to '{$item['value']}'"),
+            "Property '" . joinPath($path)
+            . "' was changed. From '" . stringify($item['oldValue'])
+            . "' to '" . stringify($item['value']) . "'"),
 
         'hasChildren' => fn($path, $item) => stringifyPlain($item['children'], $path)
     ];
 
     $parts = array_map(function ($item) use ($templates, $path) {
-        if ($item['value'] === true) {
-            $item['value'] = 'true';
-        } elseif ($item['value'] === false) {
-            $item['value'] = 'false';
-        }
         $path[] = $item['key'];
         return $templates[$item['status']]($path, $item);
     }, $ast);
+
     $filtered = array_filter($parts, fn($item) => $item !== null);
 
     $result = implode("\n", $filtered);
