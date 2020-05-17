@@ -52,5 +52,5 @@ function stringifyPlain($ast, $path = [])
 
 function toStringPlain($ast)
 {
-    return stringifyPlain($ast) . PHP_EOL;
+    return stringifyPlain($ast) . "\n";
 }

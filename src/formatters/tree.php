@@ -23,8 +23,8 @@ function stringify($item, $count = 0)
     $parts = array_map(fn($key) =>
         repeatSpace($count + 4) . "{$key}: " . stringify($item[$key], $count + 4), $keys);
 
-    return "{" . PHP_EOL
-        . implode("\n", $parts) . PHP_EOL
+    return "{\n"
+        . implode("\n", $parts) . "\n"
         . repeatSpace($count) . "}";
 }
 
@@ -45,14 +45,14 @@ function stringifyTree($ast, $depth = 1)
 
         'changed' => fn($item, $depth) => repeatSpace($depth * 4 - 2)
             . "+ {$item['key']}: "
-            . stringify($item['value']) . PHP_EOL .
+            . stringify($item['value']) . "\n" .
             repeatSpace($depth * 4 - 2)
             . "- {$item['key']}: "
             . stringify($item['oldValue'], $depth),
 
         'hasChildren' => fn($item, $depth) => repeatSpace($depth * 4) .
             "{$item['key']}: {\n" . stringifyTree($item['children'], $depth + 1)
-            . PHP_EOL . repeatSpace($depth * 4) . "}"
+            . "\n" . repeatSpace($depth * 4) . "}"
     ];
 
     $parts = array_map(fn($item) => $templates[$item['status']]($item, $depth), $ast);
@@ -64,5 +64,5 @@ function stringifyTree($ast, $depth = 1)
 
 function toStringTree($ast)
 {
-    return "{\n" . stringifyTree($ast) . "\n}" . PHP_EOL;
+    return "{\n" . stringifyTree($ast) . "\n}\n";
 }
