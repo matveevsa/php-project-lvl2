@@ -10,11 +10,10 @@ function repeatSpace($count = 0)
 function stringify($item, $count = 0)
 {
     if (!is_array($item)) {
-        if ($item === true) {
-            $item = 'true';
-        } elseif ($item === false) {
-            $item = 'false';
+        if (is_bool($item)) {
+            $item = $item ? 'true' : 'false';
         }
+
         return $item;
     }
 

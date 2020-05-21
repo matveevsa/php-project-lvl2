@@ -6,10 +6,8 @@ function stringify($item)
 {
     $currentItem = is_array($item) ? 'complex value' : $item;
 
-    if ($currentItem === true) {
-        $currentItem = 'true';
-    } elseif ($currentItem === false) {
-        $currentItem = 'false';
+    if (is_bool($currentItem)) {
+        $currentItem = $currentItem ? 'true' : 'false';
     }
 
     return $currentItem;
